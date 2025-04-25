@@ -1,0 +1,75 @@
+/* [project]/src/app/page.css [app-client] (css) */
+:root {
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --primary-color: #0070f3;
+}
+
+.container {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  max-width: 800px;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+}
+
+.title {
+  color: #fff;
+  font-size: 2rem;
+}
+
+button {
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.input {
+  border: 2px solid var(--primary-color);
+  width: 300px;
+  color: var(--text-color);
+  border-radius: 5px;
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.input:focus {
+  border-color: var(--primary-color);
+}
+
+.primary {
+  background-color: var(--primary-color);
+}
+
+.ghost {
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+  background-color: #0000;
+  transition: background-color .3s, color .3s;
+}
+
+.ghost:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.dengerous {
+  color: #ff4d4f;
+  background-color: #0000;
+  border: 2px solid #ff4d4f;
+}
+
+.dengerous:hover {
+  color: #fff;
+  background-color: #ff4d4f;
+}
+
+
+/*# sourceMappingURL=src_app_page_909bcf69.css.map*/
