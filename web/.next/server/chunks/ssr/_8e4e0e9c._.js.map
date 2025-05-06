@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/CCRS/Documents/dev/finance/web/src/app/page.tsx"],"sourcesContent":["\"use client\"\n\nexport default function Home() {\n\n\n  return (\n   <main>\n    <h1>Finance</h1>\n   </main>\n  );\n}\n"],"names":[],"mappings":";;;;AAAA;;AAEe,SAAS;IAGtB,qBACC,8OAAC;kBACA,cAAA,8OAAC;sBAAG;;;;;;;;;;;AAGR","debugId":null}},
-    {"offset": {"line": 33, "column": 0}, "map": {"version":3,"sources":["file://C%3A/Users/CCRS/Documents/dev/finance/web/node_modules/next/src/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = require('../../module.compiled').vendored[\n  'react-ssr'\n].ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":";AAAAA,OAAOC,OAAO,GAAGC,QAAQ,4HAAyBC,QAAQ,CACxD,YACD,CAACC,kBAAkB","ignoreList":[0],"debugId":null}}]
-}
