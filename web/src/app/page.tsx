@@ -1,7 +1,7 @@
 "use client"
 
 import { CardSummary } from "@/components/card-summary";
-import { Category } from "@/components/category";
+import { Category } from "@/components/categories/category";
 import { ChartAnalyze } from "@/components/chart-analyze";
 import { Header } from "@/components/header";
 import { TransactionTable } from "@/components/transactions/transactions-table";

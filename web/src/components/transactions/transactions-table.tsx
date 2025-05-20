@@ -1,6 +1,7 @@
 import * as lucide from "lucide-react";
 import transactions from "../../assets/transactions.json" with { type: "json" };
 import React, { useEffect } from "react";
+import style from "./transactions-table.module.css";
 
 type Transaction = typeof transactions[0];
 
@@ -26,12 +27,10 @@ export function TransactionTable() {
         flexDirection: "column",
         gap: "1rem",
         width: "100%",
-        overflowY: "auto",
-        height: "100%",
+        height: "100vh",
+        overflow: "auto",
       }}>
-        <table style={{
-          borderCollapse: "collapse",
-        }}>
+        <table className={style.transactionTable}>
           <thead>
             <tr>
               <th></th>
@@ -45,71 +44,30 @@ export function TransactionTable() {
           <tbody>
             {transactions.map((transaction: Transaction) => (
               (
-                <tr key={transaction.id} style={{
-                  backgroundColor: "#f0f0f0",
-                  borderRadius: "8px",
-                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                  padding: "0.5rem",
-                }}>
-                  <td style={{
-                    textAlign: "start",
-                    fontWeight: "normal",
-                    padding: "0.5rem",
-
-                  }}>
-                    {/* {
-                      import("lucide-react").then((mod) => {
-                        const Icon = mod[transaction.category.icon] as LucideIcon;
-                        return <Icon/>
-                      })
-                    } */}
-
-                    {transaction.category.icon in lucide
-                      ? React.createElement(lucide[transaction.category.icon as keyof typeof lucide] as React.ElementType)
-                      : null}
-
+                <tr key={transaction.id}>
+                  <td>
+                    <div>
+                      {transaction.category.icon in lucide
+                        ? React.createElement(lucide[transaction.category.icon as keyof typeof lucide] as React.ElementType)
+                        : null}
+                    </div>
                   </td>
-                  <td style={{
-                    textAlign: "start",
-                    fontWeight: "normal",
-                    padding: "0.5rem",
-
-                  }}>
+                  <td>
                     {transaction.description}
                   </td>
-                  <td style={{
-                    textAlign: "start",
-                    fontWeight: "normal",
-                    padding: "0.5rem",
-
-                  }}>
+                  <td>
                     {transaction.type === "income" ? "Entrada" : "Saída"}
                   </td>
-                  <td style={{
-                    textAlign: "start",
-                    fontWeight: "normal",
-                    padding: "0.5rem",
-
-                  }}>
+                  <td>
                     {transaction.amount.toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}
                   </td>
-                  <td style={{
-                    textAlign: "start",
-                    fontWeight: "normal",
-                    padding: "0.5rem",
-
-                  }}>
+                  <td>
                     {transaction.bank}
                   </td>
-                  <td style={{
-                    textAlign: "start",
-                    fontWeight: "normal",
-                    padding: "0.5rem",
-
-                  }}>
+                  <td>
                     {new Date(transaction.date).toLocaleString("pt-BR")}
                   </td>
                 </tr>
