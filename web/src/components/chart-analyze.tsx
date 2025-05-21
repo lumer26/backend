@@ -1,3 +1,5 @@
+import { Chart } from "./chart";
+
 export function ChartAnalyze() {
   return (
     <div style={{
@@ -5,21 +7,11 @@ export function ChartAnalyze() {
       flexDirection: "column",
       gap: "1rem",
       width: "100%",
+      height: "100%",
     }}>
       <h3>Gráfico de Análise</h3>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          height: "300px",
-          backgroundColor: "#f5f5f5",
-          borderRadius: "8px",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <p>Gráfico aqui</p>
+      <div>
+        <Chart />
       </div>
     </div>
   )

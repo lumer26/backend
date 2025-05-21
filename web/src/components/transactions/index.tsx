@@ -2,6 +2,7 @@ import * as lucide from "lucide-react";
 import transactions from "../../assets/transactions.json" with { type: "json" };
 import React, { useEffect } from "react";
 import style from "./transactions-table.module.css";
+import { Pagination } from "../pagination";
 
 type Transaction = typeof transactions[0];
 
@@ -77,6 +78,8 @@ export function TransactionTable() {
           </tbody>
         </table>
       </div>
+      
+      <Pagination />
     </div>
   )
 }

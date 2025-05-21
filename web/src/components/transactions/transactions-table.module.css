@@ -3,6 +3,7 @@
   /* text-indent: initial; */
   border-spacing: 0 0.5rem;
   margin: 0 1rem 0 1rem;
+
   tbody {
 
     tr {
@@ -13,6 +14,7 @@
       cursor: pointer;
       /* border: 1px solid var(--border); */
       box-shadow: 0 0 0 1px var(--border);
+
       td {
         div {
           display: flex;
@@ -35,18 +37,23 @@
           border-bottom-right-radius: 0.5rem;
         }
       }
+
+      transition: background-color 0.5s ease-in-out;
+
+      &:hover {
+        background-color: var(--primary);
+      }
+
     }
 
-    tr:hover {
-      background: var(--secondary);
-    }
 
     td {
       padding: 0.5rem;
       text-align: left;
       font-size: 1rem;
       font-weight: 300;
-      color: var(--foreground);    }
+      color: var(--foreground);
+    }
   }
 
   th {

@@ -36,15 +36,19 @@ export function Category(props: CategoryProps) {
               </div>
               <span>{cat.name}</span>
             </div>
-            <span>{cat.quantity.toLocaleString("pt-BR", {
-              style: "decimal",
-              minimumFractionDigits: 0,
-              currency: "BRL",
-            })}</span>
-            <span>{cat.amount.toLocaleString("pt-BR", {
-              style: "currency",
-              currency: "BRL",
-            })}</span>
+            <span>
+              {cat.quantity.toLocaleString("pt-BR", {
+                style: "decimal",
+                minimumFractionDigits: 0,
+                currency: "BRL",
+              })}
+            </span>
+            <span>
+              {cat.amount.toLocaleString("pt-BR", {
+                style: "currency",
+                currency: "BRL",
+              })}
+            </span>
           </div>
         ))}
       </div>

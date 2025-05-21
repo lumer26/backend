@@ -1,11 +1,11 @@
 "use client"
 
 import { CardSummary } from "@/components/card-summary";
-import { Category } from "@/components/categories/category";
+import { Category } from "@/components/categories";
 import { ChartAnalyze } from "@/components/chart-analyze";
 import { Header } from "@/components/header";
-import { TransactionTable } from "@/components/transactions/transactions-table";
-import { Banknote, BanknoteArrowDown, BanknoteArrowUp, Car, CircleEllipsis, Hamburger, Pill, TreePalm } from "lucide-react";
+import { TransactionTable } from "@/components/transactions";
+import { Car, CircleEllipsis, Hamburger, Pill, TreePalm } from "lucide-react";
 
 
 const categories = [
@@ -43,77 +43,60 @@ const categories = [
     name: "Educação",
     quantity: 1,
     amount: 10,
-  },  
+  },
 ]
 
 
-const cards = [
-  {
-    icon: BanknoteArrowDown,
-    title: "Entradas",
-    amount: 7840.56,
-    description: "Soma de todas as entradas do período",
-  },
-  {
-    icon: BanknoteArrowUp,
-    title: "Saídas",
-    amount: 1580.45,
-    description: "Soma de todas as saídas do período",
-  },
-  {
-    icon: Banknote,
-    title: "Balanço",
-    amount: 6260.11,
-    description: "Soma de todas as entradas e saídas do período",
-  }
-]
 
 export default function Home() {
 
 
   return (
-   <main style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-    justifyContent: "start",
-    alignItems: "start",
-    height: "100vh",
-    maxWidth: "1000px",
-    width: "100%",
-    margin: "0 auto",
-    padding: "1rem"
-   }}>
-    <Header/>
-    <section style={{
+    <main style={{
       display: "flex",
-      flexDirection: "row",
+      flexDirection: "column",
       gap: "1rem",
+      justifyContent: "start",
+      alignItems: "start",
+      // height: "100vh",
+      maxWidth: "1000px",
       width: "100%",
+      margin: "0 auto",
+      padding: "1rem"
     }}>
-      {cards.map((card) => (
-        <CardSummary key={card.title} card={card}/>
-      ))}
-    </section>
+      <Header />
 
-    <section style={{
-      display: "flex",
-      flexDirection: "row",
-      gap: "1rem",
-      width: "100%",
-    }}>
-      <ChartAnalyze/>
-      <Category categories={categories}/>
-    </section>
+      <section style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "1rem",
+        width: "100%",
+        height: "100%",
+        maxHeight: "300px",
+      }}>
+        <CardSummary />
+      </section>
 
-    <section style={{
-      display: "flex",
-      flexDirection: "row",
-      gap: "1rem",
-      width: "100%",
-    }}>
-      <TransactionTable />
-    </section>
-   </main>
+      <section style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "1rem",
+        width: "100%",
+        height: "100%",
+        maxHeight: "350px",
+      }}>
+        <ChartAnalyze />
+        <Category categories={categories} />
+      </section>
+
+      <section style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "1rem",
+        width: "100%",
+      }}>
+        <TransactionTable />
+      </section>
+    </main >
   );
 }

@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+}
+
+.countPerPage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pages {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
