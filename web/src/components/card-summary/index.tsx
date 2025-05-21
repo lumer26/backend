@@ -1,5 +1,6 @@
 import { Banknote, BanknoteArrowDown, BanknoteArrowUp } from "lucide-react";
 import style from "./card-summary.module.css";
+import { Card } from "./card";
 
 // interface CardSummaryProps {
 //   amount: number;
@@ -32,68 +33,31 @@ export function CardSummary() {
 
 
   return (
-    <div
-      className={style.container}
-    >
-      <div className={`${style.card} ${style.income}`}>
-        <div className={style.header}>
-          <span>Entradas</span>
-          <BanknoteArrowDown strokeWidth={1} />
+    <div className={style.container}>
 
-        </div>
-        <div
-          className={`${style.content} ${style.income}`}
-        >
-          <span>{(7840.56).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          })}</span>
-        </div>
+      <Card
+        title="Entradas"
+        amount={5000}
+        description="Soma de todas as entradas"
+        icon={BanknoteArrowDown}
+        type="income"
+      />
 
-        <div className={style.footer}>
-          <p>Soma de todas as entradas do período</p>
-        </div>
-      </div>
+      <Card
+        title="Saidas"
+        amount={1000}
+        description="Soma de todas as entradas"
+        icon={BanknoteArrowUp}
+        type="expense"
+      />
 
-      <div className={`${style.card} ${style.expense}`}>
-        <div className={style.header}>
-          <span>Saídas</span>
-          <BanknoteArrowUp strokeWidth={1} />
-
-        </div>
-        <div className={`${style.content} ${style.expense}`}>
-          <span>{(1580.45).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          })}</span>
-        </div>
-
-        <div className={style.footer}>
-          <p>Soma de todas as entradas do período</p>
-        </div>
-      </div>
-
-      <div className={`${style.card} ${style.balance}`}>
-        <div
-          className={style.header}
-        >
-          <span>Balanço</span>
-          <Banknote strokeWidth={1} />
-
-        </div>
-        <div
-          className={style.content}
-        >
-          <span>{(6260.11).toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL",
-          })}</span>
-        </div>
-
-        <div className={style.footer}>
-          <p>Soma de todas as entradas do período</p>
-        </div>
-      </div>
+      <Card
+        title="Balanço"
+        amount={4000}
+        description="Soma de todas as entradas"
+        icon={Banknote}
+        type="balance"
+      />
     </div>
   );
 }
