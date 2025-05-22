@@ -1,16 +1,18 @@
 import * as lucide from "lucide-react";
-import transactions from "../../assets/transactions.json" with { type: "json" };
-import React, { useEffect } from "react";
-import style from "./transactions-table.module.css";
+
+import { Transaction, TransactionResponse } from "@/lib/types/transactions";
+import React from "react";
 import { Pagination } from "../pagination";
+import style from "./transactions-table.module.css";
 
-type Transaction = typeof transactions[0];
 
-export function TransactionTable() {
 
-  useEffect(() => {
-    import("lucide-react").then((mod) => console.log(mod));
-  })
+
+interface TransactionTableProps {
+  transactionResponse: TransactionResponse
+}
+export function TransactionTable(props: TransactionTableProps) {
+  const { transactionResponse } = props
 
   return (
     <div
@@ -28,7 +30,6 @@ export function TransactionTable() {
         flexDirection: "column",
         gap: "1rem",
         width: "100%",
-        height: "100vh",
         overflow: "auto",
       }}>
         <table className={style.transactionTable}>
@@ -43,7 +44,7 @@ export function TransactionTable() {
             </tr>
           </thead>
           <tbody>
-            {transactions.map((transaction: Transaction) => (
+            {transactionResponse.data.map((transaction: Transaction) => (
               (
                 <tr key={transaction.id}>
                   <td>
@@ -79,7 +80,12 @@ export function TransactionTable() {
         </table>
       </div>
       
-      <Pagination />
+      <Pagination 
+        currentPage={transactionResponse.currentPage}
+        perPage={transactionResponse.perPage}
+        totalData={transactionResponse.items}
+        totalPages={transactionResponse.pages}
+      />
     </div>
   )
 }

@@ -36,8 +36,8 @@
     }
 
     &:hover {
-      background-color: var(--destructive);
-      /* filter: brightness(0.9); */
+      /* background-color: var(--destructive); */
+      filter: brightness(0.9);
     }
   }
 

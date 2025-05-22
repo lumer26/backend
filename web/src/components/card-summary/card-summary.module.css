@@ -53,6 +53,10 @@
   &:hover {
     color: var(--destructive);
   }
+
+  svg {
+      color: var(--destructive);
+    }
 }
 
 .balance {

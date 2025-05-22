@@ -15,11 +15,11 @@ export function Header() {
 
       <div style={{ display: 'flex', gap: '1rem' }}>
         <button className={style.transaction}>
-          <CirclePlus />
+          <CirclePlus strokeWidth={1}/>
         </button>
 
         <button className={style.theme}>
-          <Moon />
+          <Moon strokeWidth={1}/>
         </button>
       </div>
     </header>

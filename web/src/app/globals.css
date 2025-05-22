@@ -102,6 +102,11 @@
   table {
     border-collapse: separate;
   }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) var(--muted-foreground);
+  }
 }
 
 @theme inline {

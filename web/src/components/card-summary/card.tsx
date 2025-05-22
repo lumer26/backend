@@ -12,10 +12,10 @@ interface CardProps {
 export function Card(props: CardProps) {
   
   return (
-    <div className={`${style.card} ${props.type === "income" ? style.income : style.expense}`}>
+    <div className={`${style.card} ${style[props.type]}`}>
       <div className={style.header}>
         <span>{props.title}</span>
-        {props.icon && <props.icon />}
+        {props.icon && <props.icon strokeWidth={1}/>}
         {/* <BanknoteArrowDown strokeWidth={1} /> */}
 
       </div>
