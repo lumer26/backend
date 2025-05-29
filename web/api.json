@@ -240,5 +240,74 @@
       },
       "date": "2023-10-20T11:00:00Z"
     }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "icon": "ShoppingBasket",
+      "name": "Alimentação"
+    },
+    {
+      "id": 2,
+      "icon": "Dumbbell",
+      "name": "Saúde"
+    },
+    {
+      "id": 3,
+      "icon": "Film",
+      "name": "Lazer"
+    },
+    {
+      "id": 4,
+      "icon": "DollarSign",
+      "name": "Rendimentos"
+    },
+    {
+      "id": 5,
+      "icon": "Heart",
+      "name": "Saúde"
+    },
+    {
+      "id": 6,
+      "icon": "Car",
+      "name": "Transporte"
+    },
+    {
+      "id": 7,
+      "icon": "Book",
+      "name": "Educação"
+    },
+    {
+      "id": 8,
+      "icon": "Home",
+      "name": "Casa"
+    }
+  ],
+  "banks": [
+    {
+      "id": 1,
+      "name": "Banco do Brasil",
+      "icon": "Bank"
+    },
+    {
+      "id": 2,
+      "name": "Itaú",
+      "icon": "Bank"
+    },
+    {
+      "id": 3,
+      "name": "Santander",
+      "icon": "Bank"
+    },
+    {
+      "id": 4,
+      "name": "Nubank",
+      "icon": "Bank"
+    },
+    {
+      "id": 5,
+      "name": "Caixa Econômica",
+      "icon": "Bank"
+    }
   ]
 }

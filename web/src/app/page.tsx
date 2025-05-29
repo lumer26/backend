@@ -80,11 +80,13 @@ export default function Home() {
   }, [searchParams, router, pathname])
 
   const getTransactions =  useCallback(async ({ page, perPage }: { page: string; perPage: string }) => {
-    const response = await fetch(`http://localhost:3333/transactions?_page=${page}&_per_page=${perPage}`)
+    const response = await fetch(`http://localhost:3333/api/v1/transactions?_page=${page}&_per_page=${perPage}`)
     if (!response.ok) {
       throw new Error("Failed to fetch data");
     }
     const data = await response.json() as TransactionResponse;
+
+    
     setTransactionsResponse({ 
       ...data,
       currentPage: Number(page),
@@ -104,6 +106,8 @@ export default function Home() {
     getTransactions({ page: page.toString(), perPage: perPage.toString() })
 
   }, [getTransactions, page, perPage])
+
+
 
   return (
     <main style={{
