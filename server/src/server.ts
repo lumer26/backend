@@ -1,181 +1,184 @@
-import express from "express";
-import { Bank, Category, Transaction } from "./entities/transaction";
 
-const app = express();
-app.use(express.json());
+import Fastify from 'fastify'
+import { Category } from './entities/transaction.js'
+import { CategoryRepositoryInMemory } from './repositories/category-repository-in-memory.js'
+import { CreateCategoryService } from './services/categories/create-category-service.js'
 
-// In-memory storage
-const banks: Bank[] = [];
-const categories: Category[] = [];
-const transactions: Transaction[] = [];
+const fastify = Fastify({
+  logger: true
+})
 
-// --- BANK CRUD ---
+const versionApi = "v1"
 
-// List all banks
-app.get("/banks", (req, res) => {
-  res.json(banks);
-});
-
-// Get bank by id (query param)
-app.get("/bank", (req, res) => {
-  const { id } = req.query;
-  const bank = banks.find(b => b.id === id);
-  if (!bank) return res.status(404).json({ error: "Bank not found" });
-  res.json(bank);
-});
-
-// Create bank
-app.post("/bank", (req, res) => {
-  const { ispb, name, code, fullName } = req.body;
-  if (!ispb || !name || !code || !fullName) return res.status(400).json({ error: "Missing fields" });
-  const bank = new Bank(ispb, name, code, fullName);
-  banks.push(bank);
-  res.status(201).json(bank);
-});
-
-// Update bank
-app.put("/bank", (req, res) => {
-  const { id } = req.query;
-  const bank = banks.find(b => b.id === id);
-  if (!bank) return res.status(404).json({ error: "Bank not found" });
-  const { ispb, name, code, fullName } = req.body;
-  if (ispb) bank.ispb = ispb;
-  if (name) bank.name = name;
-  if (code) bank.code = code;
-  if (fullName) bank.fullName = fullName;
-  bank.updatedAt = new Date();
-  res.json(bank);
-});
-
-// Delete bank
-app.delete("/bank", (req, res) => {
-  const { id } = req.query;
-  const idx = banks.findIndex(b => b.id === id);
-  if (idx === -1) return res.status(404).json({ error: "Bank not found" });
-  banks.splice(idx, 1);
-  res.status(204).send();
-});
-
-// --- CATEGORY CRUD ---
-
-// List all categories
-app.get("/categories", (req, res) => {
-  res.json(categories);
-});
-
-// Get category by id (query param)
-app.get("/category", (req, res) => {
-  const { id } = req.query;
-  const category = categories.find(c => c.id === id);
-  if (!category) return res.status(404).json({ error: "Category not found" });
-  res.json(category);
-});
-
-// Create category
-app.post("/category", (req, res) => {
-  const { name, icon } = req.body;
-  if (!name) return res.status(400).json({ error: "Missing name" });
-  const category = new Category(name, icon);
-  categories.push(category);
-  res.status(201).json(category);
-});
-
-// Update category
-app.put("/category", (req, res) => {
-  const { id } = req.query;
-  const category = categories.find(c => c.id === id);
-  if (!category) return res.status(404).json({ error: "Category not found" });
-  const { name, icon } = req.body;
-  if (name) category.name = name;
-  if (icon !== undefined) category.icon = icon;
-  category.updatedAt = new Date();
-  res.json(category);
-});
-
-// Delete category
-app.delete("/category", (req, res) => {
-  const { id } = req.query;
-  const idx = categories.findIndex(c => c.id === id);
-  if (idx === -1) return res.status(404).json({ error: "Category not found" });
-  categories.splice(idx, 1);
-  res.status(204).send();
-});
-
-// --- TRANSACTION CRUD ---
-
-// List all transactions
-app.get("/transactions", (req, res) => {
-  res.json(transactions);
-});
-
-// Get transaction by id (query param)
-app.get("/transaction", (req, res) => {
-  const { id } = req.query;
-  const transaction = transactions.find(t => t.id === id);
-  if (!transaction) return res.status(404).json({ error: "Transaction not found" });
-  res.json(transaction);
-});
-
-// Create transaction
-app.post("/transaction", (req, res) => {
-  const { description, type, amount, bankId, categoryId, date } = req.body;
-  if (!description || !type || !amount || !bankId || !categoryId || !date) {
-    return res.status(400).json({ error: "Missing fields" });
-  }
-  const bank = banks.find(b => b.id === bankId);
-  const category = categories.find(c => c.id === categoryId);
-  if (!bank) return res.status(400).json({ error: "Invalid bankId" });
-  if (!category) return res.status(400).json({ error: "Invalid categoryId" });
-  const transaction = new Transaction(
-    description,
-    type,
-    amount,
-    bank,
-    category,
-    new Date(date)
-  );
-  transactions.push(transaction);
-  res.status(201).json(transaction);
-});
-
-// Update transaction
-app.put("/transaction", (req, res) => {
-  const { id } = req.query;
-  const transaction = transactions.find(t => t.id === id);
-  if (!transaction) return res.status(404).json({ error: "Transaction not found" });
-  const { description, type, amount, bankId, categoryId, date } = req.body;
-  if (description) transaction.description = description;
-  if (type) transaction.type = type;
-  if (amount) transaction.amount = amount;
-  if (bankId) {
-    const bank = banks.find(b => b.id === bankId);
-    if (!bank) return res.status(400).json({ error: "Invalid bankId" });
-    transaction.bank = bank;
-  }
-  if (categoryId) {
-    const category = categories.find(c => c.id === categoryId);
-    if (!category) return res.status(400).json({ error: "Invalid categoryId" });
-    transaction.category = category;
-  }
-  if (date) transaction.date = new Date(date);
-  transaction.updatedAt = new Date();
-  res.json(transaction);
-});
-
-// Delete transaction
-app.delete("/transaction", (req, res) => {
-  const { id } = req.query;
-  const idx = transactions.findIndex(t => t.id === id);
-  if (idx === -1) return res.status(404).json({ error: "Transaction not found" });
-  transactions.splice(idx, 1);
-  res.status(204).send();
-});
-
-// --- SERVER START ---
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const transactions = [
+  {
+    "id": "367f605a-ae00-4aa4-b413-759bad3084a7",
+    "description": "Supermercado",
+    "type": "expense",
+    "amount": 150.0,
+    "bank": "Banco do Brasil",
+    "category": {
+      "icon": "ShoppingBasket",
+      "name": "Alimentação"
+    },
+    "date": "2023-10-01T10:00:00Z"
+  },
+  {
+    "id": "1a2b3c4d-5678-9101-1121-314151617181",
+    "description": "Restaurante",
+    "type": "expense",
+    "amount": 80.0,
+    "bank": "Itaú",
+    "category": {
+      "icon": "Utensils",
+      "name": "Refeições"
+    },
+    "date": "2023-10-02T12:30:00Z"
+  },
+  {
+    "id": "2b3c4d5e-6789-1011-1213-415161718192",
+    "description": "Academia",
+    "type": "expense",
+    "amount": 120.0,
+    "bank": "Santander",
+    "category": {
+      "icon": "Dumbbell",
+      "name": "Saúde"
+    },
+    "date": "2023-10-03T08:00:00Z"
+  },
+  {
+    "id": "3c4d5e6f-7890-1112-1314-516171819203",
+    "description": "Cinema",
+    "type": "expense",
+    "amount": 50.0,
+    "bank": "Nubank",
+    "category": {
+      "icon": "Film",
+      "name": "Lazer"
+    },
+    "date": "2023-10-04T20:00:00Z"
+  },
+  {
+    "id": "4d5e6f7g-8901-1213-1415-617181920214",
+    "description": "Salário",
+    "type": "income",
+    "amount": 5000.0,
+    "bank": "Banco do Brasil",
+    "category": {
+      "icon": "DollarSign",
+      "name": "Rendimentos"
+    },
+    "date": "2023-10-05T09:00:00Z"
+  },
+  {
+    "id": "5e6f7g8h-9012-1314-1516-718192021225",
+    "description": "Farmácia",
+    "type": "expense",
+    "amount": 30.0,
+    "bank": "Caixa Econômica",
+    "category": {
+      "icon": "Heart",
+      "name": "Saúde"
+    },
+    "date": "2023-10-06T18:00:00Z"
+  },
+  {
+    "id": "6f7g8h9i-0123-1415-1617-819202122236",
+    "description": "Uber",
+    "type": "expense",
+    "amount": 25.0,
+    "bank": "Nubank",
+    "category": {
+      "icon": "Car",
+      "name": "Transporte"
+    },
+    "date": "2023-10-07T22:00:00Z"
+  },
+  {
+    "id": "7g8h9i0j-1234-1516-1718-920212223247",
+    "description": "Livraria",
+    "type": "expense",
+    "amount": 60.0,
+    "bank": "Itaú",
+    "category": {
+      "icon": "Book",
+      "name": "Educação"
+    },
+    "date": "2023-10-08T15:00:00Z"
+  },
+  {
+    "id": "8h9i0j1k-2345-1617-1819-021222324258",
+    "description": "Internet",
+    "type": "expense",
+    "amount": 100.0,
+    "bank": "Santander",
+    "category": {
+      "icon": "Wifi",
+      "name": "Utilidades"
+    },
+    "date": "2023-10-09T10:00:00Z"
+  },
+  {
+    "id": "9i0j1k2l-3456-1718-1920-122232425269",
+    "description": "Energia Elétrica",
+    "type": "expense",
+    "amount": 200.0,
+    "bank": "Banco do Brasil",
+    "category": {
+      "icon": "Zap",
+      "name": "Utilidades"
+    },
+    "date": "2023-10-10T11:00:00Z"
+  },
+  {
+    "id": "10a1b2c3-d456-7890-1234-567890abcdef",
+    "description": "Padaria",
+    "type": "expense",
+    "amount": 25.0,
+    "bank": "Banco do Brasil",
+    "category": {
+      "icon": "ShoppingBasket",
+      "name": "Alimentação"
+    },
+    "date": "2023-10-11T08:00:00Z"
+  },
+  {
+    "id": "11b2c3d4-e567-8901-2345-678901bcdefg",
+    "description": "Posto de Gasolina",
+    "type": "expense",
+    "amount": 150.0,
+    "bank": "Itaú",
+    "category": {
+      "icon": "Fuel",
+      "name": "Transporte"
+    },
+    "date": "2023-10-12T14:00:00Z"
+  },
+  {
+    "id": "12c3d4e5-f678-9012-3456-789012cdefgh",
+    "description": "Academia",
+    "type": "expense",
+    "amount": 100.0,
+    "bank": "Santander",
+    "category": {
+      "icon": "Dumbbell",
+      "name": "Saúde"
+    },
+    "date": "2023-10-13T07:00:00Z"
+  },
+  {
+    "id": "13d4e5f6-g789-0123-4567-890123defghi",
+    "description": "Mercado",
+    "type": "expense",
+    "amount": 200.0,
+    "bank": "Nubank",
+    "category": {
+      "icon": "ShoppingCart",
+      "name": "Alimentação"
+    },
+    "date": "2023-10-14T10:00:00Z"
+  },
   {
     "id": "14e5f6g7-h890-1234-5678-901234efghij",
     "description": "Consulta Médica",
@@ -250,7 +253,8 @@ app.listen(PORT, () => {
   }
 ]
 
-let categories: Category[] = []
+const categoryRepository = new CategoryRepositoryInMemory()
+const createCategoryService = new CreateCategoryService(categoryRepository)
 
 // Declare a route
 fastify.get(`/transactions`, async function handler(request, reply) {
@@ -259,37 +263,42 @@ fastify.get(`/transactions`, async function handler(request, reply) {
 
 // categories
 fastify.post('/categories', async function handler(request, reply) {
-  const { name, icon } = request.body as { name: string, icon?: string }
-
-  const category = new Category(name, icon)
-  categories.push(category)
+  const { name, icon } = request.body as { name: string, icon?: string | null }
+  const category = await createCategoryService.execute( name, icon )
 
   return reply.send(category)
 })
 
-fastify.get('/categories', async function handler(request, reply) {
-  
-  return reply.send(categories)
-})
-
-fastify.patch(`/categories/:id`, async function handler(request, reply) {
+fastify.get('/categories/:id', async function handler(request, reply) {
   const { id } = request.params as { id: string }
-  const {name , icon} = request.body as { name?: string, icon?: string }
+  const category = await categoryRepository.findById(id)
 
-  const categoryFinded = categories.find(category => category.id === id)
-  if (!categoryFinded) {
-    return reply.status(404).send({ error: 'Category not found' })
-  }
-
-  const categoryIndex = categories.findIndex(category => category.id === id)
-  categories[categoryIndex] = {
-    ...categoryFinded,
-    name: name ?? categoryFinded.name,
-    icon: icon ?? categoryFinded.icon,
-  }
-
-  return reply.send(categories[categoryIndex])
+  return reply.send(category)
 })
+
+// fastify.get('/categories', async function handler(request, reply) {
+
+//   return reply.send(categories)
+// })
+
+// fastify.patch(`/categories/:id`, async function handler(request, reply) {
+//   const { id } = request.params as { id: string }
+//   const {name , icon} = request.body as { name?: string, icon?: string }
+
+//   const categoryFinded = categories.find(category => category.id === id)
+//   if (!categoryFinded) {
+//     return reply.status(404).send({ error: 'Category not found' })
+//   }
+
+//   const categoryIndex = categories.findIndex(category => category.id === id)
+//   categories[categoryIndex] = {
+//     ...categoryFinded,
+//     name: name ?? categoryFinded.name,
+//     icon: icon ?? categoryFinded.icon,
+//   }
+
+//   return reply.send(categories[categoryIndex])
+// })
 
 
 // Run the server!
