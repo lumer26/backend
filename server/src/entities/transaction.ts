@@ -14,6 +14,8 @@ export class Entity {
   }
 }
 
+
+
 export class Category extends Entity {
   icon?: string | null;
   name: string;

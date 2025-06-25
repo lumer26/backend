@@ -3,6 +3,7 @@ import Fastify from 'fastify'
 import { Category } from './entities/transaction.js'
 import { CategoryRepositoryInMemory } from './repositories/category-repository-in-memory.js'
 import { CreateCategoryService } from './services/categories/create-category-service.js'
+import { prisma } from './database/prisma.js'
 
 const fastify = Fastify({
   logger: true
@@ -264,14 +265,23 @@ fastify.get(`/transactions`, async function handler(request, reply) {
 // categories
 fastify.post('/categories', async function handler(request, reply) {
   const { name, icon } = request.body as { name: string, icon?: string | null }
-  const category = await createCategoryService.execute( name, icon )
+  const newCategory = await prisma.category.create({
+    data: {
+      name,
+      icon: icon ?? null
+    }
+  })
+  // const category = await createCategoryService.execute( name, icon )
 
-  return reply.send(category)
+  return reply.send(newCategory)
 })
 
 fastify.get('/categories/:id', async function handler(request, reply) {
   const { id } = request.params as { id: string }
-  const category = await categoryRepository.findById(id)
+  // const category = await categoryRepository.findById(id)
+  const category = await prisma.category.findUnique({
+    where: { id: id}
+  })
 
   return reply.send(category)
 })
