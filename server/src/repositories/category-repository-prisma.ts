@@ -1,30 +1,34 @@
 import { prisma } from "../database/prisma.js";
 import { Category } from "../entities/transaction.js";
-import { CategoryInterfaceRepository, CreateCategoryDTO } from "./category-interface-repository.js";
+import { ICategoryRepository, CreateCategoryDTO } from "./category-interface-repository.js";
 
-export class CategoryRepositoryInMemory implements CategoryInterfaceRepository {
-  categories: Category[] = [];
+export class CategoryRepositoryPrisma implements ICategoryRepository {
 
   async findById(id: string): Promise<Category | null> {
-    const category = this.categories.find(category => category.id === id);
+    const category = await prisma.category.findUnique({
+      where: {
+        id: id,
+      }
+    })
 
-    // if (category === undefined) {
-    //   return null;
-    // } else {
-    //   return category;
-    // }
-
-    return category  || null;
-  }
-  async findByName(name: string): Promise<Category | null> {
-    const category = this.categories.find(category => category.name === name);
     return category || null;
   }
-  findAll(): Promise<Category[]> {
-    throw new Error("Method not implemented.");
+  async findByName(name: string): Promise<Category | null> {
+    const category = await prisma.category.findFirst({
+      where: {
+        name: {
+          equals: name,
+        }
+      }
+    })
+    return category || null;
+  }
+  async findAll(): Promise<Category[]> {
+    const categories = await prisma.category.findMany();
+    return categories;
   }
   async create(category: CreateCategoryDTO): Promise<Category> {
-    const newCategory = prisma.category.create({
+    const newCategory = await prisma.category.create({
       data: {
         name: category.name,
         icon: category.icon ?? null
@@ -33,10 +37,24 @@ export class CategoryRepositoryInMemory implements CategoryInterfaceRepository {
     // this.categories.push(newCategory);
     return newCategory;
   }
-  update(category: Category): Promise<Category> {
-    throw new Error("Method not implemented.");
+
+  async update(category: Category): Promise<Category> {
+    const updatedCategory = await prisma.category.update({
+      where: {
+        id: category.id,
+      },
+      data: {
+        name: category.name,
+        icon: category.icon ?? null
+      }
+    })
+    return updatedCategory;
   }
-  delete(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  async delete(id: string): Promise<void> {
+    await prisma.category.delete({
+      where: {
+        id: id,
+      }
+    })
   }
 }

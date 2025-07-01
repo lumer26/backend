@@ -1,12 +1,6 @@
-import { CategoriesController } from "../controllers/categories-controller.js";
-import { fastify } from "../fastify.js";
-import { CategoryRepositoryInMemory } from "../repositories/category-repository-in-memory.js";
+import { FastifyInstance } from "fastify";
+import { createCategoryController } from "../controllers/create-category-controller.js";
 
-const repositoriesCategory = new CategoryRepositoryInMemory()
-const categoriesController = new CategoriesController(repositoriesCategory)
-
-fastify.route({
-  method: 'POST',
-  url: '/categories',
-  handler: (request, reply) => categoriesController.create(request, reply)
-})
+export default async function (app: FastifyInstance) {
+  app.post('/categories', createCategoryController)
+}
