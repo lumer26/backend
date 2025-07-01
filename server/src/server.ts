@@ -1,14 +1,9 @@
 
-import Fastify from 'fastify'
 import { Category } from './entities/transaction.js'
 import { CategoryRepositoryInMemory } from './repositories/category-repository-in-memory.js'
 import { CreateCategoryService } from './services/categories/create-category-service.js'
+import { fastify } from './fastify.js'
 
-const fastify = Fastify({
-  logger: true
-})
-
-const versionApi = "v1"
 
 const transactions = [
   {
