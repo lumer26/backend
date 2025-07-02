@@ -1,7 +1,7 @@
 import { Category } from "../entities/transaction.js";
-import { CategoryInterfaceRepository, CreateCategoryDTO } from "./category-interface-repository.js";
+import { ICategoryRepository, CreateCategoryDTO } from "./category-interface-repository.js";
 
-export class CategoryRepositoryInMemory implements CategoryInterfaceRepository {
+export class CategoryRepositoryInMemory implements ICategoryRepository {
   categories: Category[] = [];
 
   async findById(id: string): Promise<Category | null> {
