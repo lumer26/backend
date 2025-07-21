@@ -9,7 +9,7 @@ export class UserService {
   }
 
   async createUser(userData: IUser): Promise<IUser> {
-    // Validações básicas
+
     if (!userData.name || !userData.email) {
       throw new Error('Nome e email são obrigatórios')
     }

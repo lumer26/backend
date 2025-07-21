@@ -26,12 +26,7 @@ export class Category extends Entity {
   }
 }
 
-/**
-  "ispb": "00000208",
-  "name": "BRB - BCO DE BRASILIA S.A.",
-  "code": 70,
-  "fullName": "BRB - BANCO DE BRASILIA S.A."
- */
+
 export class Bank extends Entity {
   ispb: string;
   name: string;

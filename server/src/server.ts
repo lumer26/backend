@@ -7,16 +7,13 @@ dotenv.config()
 
 const app = Fastify({ logger: true })
 
-// Registrar CORS
 await app.register(cors, {
-  origin: true, // Permite todas as origens
+  origin: true, 
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 })
 
-// Registrar rotas
 app.register(userRoutes)
 
-// Rota de teste
 app.get('/', async (request, reply) => {
   return { message: 'Backend Fastify funcionando!' }
 })
