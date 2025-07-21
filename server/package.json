@@ -1,23 +1,25 @@
 {
-  "name": "finance-backend",
+  "name": "backend",
   "version": "1.0.0",
-  "description": "Este projeto é um sistema de gerenciamento financeiro",
-  "license": "ISC",
-  "author": "Christian Cesar",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts"
-  },
-  "devDependencies": {
-    "@types/node": "^22.15.29",
-    "prisma": "^6.10.1",
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
-    "@fastify/cors": "^11.0.1",
-    "@prisma/client": "^6.10.1",
-    "fastify": "^5.3.3"
+    "@fastify/cors": "^9.0.0",
+    "@prisma/client": "^5.0.0",
+    "dotenv": "^17.2.0",
+    "fastify": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "prisma": "^5.0.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.0.0"
   }
 }

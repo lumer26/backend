@@ -1,37 +1,37 @@
-
-import fastify from 'fastify'
-import categoriesRoute from './routes/categories-route.js'
+import Fastify from 'fastify'
 import cors from '@fastify/cors'
-import { AppError } from './common/AppError.js'
-import { ZodError } from 'zod'
+import { userRoutes } from './routes/userRoutes.js'
+import dotenv from 'dotenv'
+dotenv.config()
 
-export const app = fastify()
-app.register(cors, {
-  origin: '*',
+
+const app = Fastify({ logger: true })
+
+// Registrar CORS
+await app.register(cors, {
+  origin: true, // Permite todas as origens
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
 })
 
-app.register(categoriesRoute)
+// Registrar rotas
+app.register(userRoutes)
 
-app.setErrorHandler((error, _, reply) => {
-  if (error instanceof ZodError) {
-    return reply
-      .status(400)
-      .send({ message: 'Validation error.', issues: error.format() })
-  }
-
- if (error instanceof AppError) {
-    reply.status(error.statusCode).send({
-      status: "error",
-      message: error.message,
-    });
-  }
-
-  return reply.status(500).send({ message: 'Internal server error.' })
+// Rota de teste
+app.get('/', async (request, reply) => {
+  return { message: 'Backend Fastify funcionando!' }
 })
 
-try {
-  await app.listen({ port: 3000 })
-} catch (err) {
-  console.error(err)
-  process.exit(1)
+const start = async () => {
+  try {
+    await app.listen({ port: 3001, host: '0.0.0.0' })
+    console.log('🚀 Server ready at http://localhost:3001')
+  } catch (err) {
+    app.log.error(err)
+    process.exit(1)
+  }
 }
+
+
+
+start()
+
