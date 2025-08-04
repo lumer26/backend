@@ -1,0 +1,6 @@
+nohup: ignoring input
+
+> backend@1.0.0 start
+> node -r tsconfig-paths/register dist/server.js
+
+🚀 iniciado http://localhost:3001
